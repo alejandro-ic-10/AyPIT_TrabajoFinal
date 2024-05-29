@@ -97,29 +97,20 @@ for elemento in texto_posts: #Iteramos la lista de la cual queremos obtener la n
     elemento = quitar_emojis(elemento)
     frases.append(elemento) #Se agregan las frases ya traducidas para su posterior evaluación
 
-# i = 0
-# translater = Translator()
-# for comentario in frases:
-#     idioma = translater.detect(comentario)
-#     if idioma != 'en' and i < 5:
-#         frases.remove(comentario)
-#         traduccion = translater.translate(comentario, dest='en')
-#         frases.append(traduccion)
-#         print(traduccion)
-#         i = i + 1
-
-
 positivo = 0
 negativo = 0
 neutral = 0
 for sentence in frases:
-    #print(sentence)
     scores = analizador.polarity_scores(sentence)
     for key in scores:
         print(key, ': ', scores[key])
-
-print(scores)
-
+        
+    if scores['pos'] > scores['neg']:
+        positivo = positivo + 1
+    elif scores['neu'] == 1:
+        neutral = neutral + 1
+    elif scores['neg'] > scores['pos']:
+        negativo = negativo + 1
 
 print(positivo, negativo, neutral)
 
